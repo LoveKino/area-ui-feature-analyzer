@@ -1,28 +1,29 @@
 'use strict';
 
 let {
-    reduce
+    reduce, mergeMap
 } = require('bolzano');
 let {
-    isString, isObject
+    isString
 } = require('basetype');
 let rules = require('./detectionRule');
 
 /**
  * contentRule = [ruleName]
  *
- * ruleName: string | object
+ * ruleName: string
  */
 let genContentDetectionRules = (node, {
-    contentRules = ['imgUrl', 'placeholder', 'textNode']
+    contentRules = ['imgUrl', 'placeholder', 'textNode'], customContentRules = {}
 } = {}) => {
+    rules = mergeMap(rules, customContentRules);
+
     return reduce(contentRules, (prev, item) => {
         let rule = null;
         if (isString(item)) {
             rule = rules[item];
-        } else if (isObject(item)) {
-            rule = item;
         }
+
         if (rule) {
             let {
                 detect, genRules

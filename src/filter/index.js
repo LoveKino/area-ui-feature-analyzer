@@ -11,6 +11,8 @@ let {
 
 /**
  * filter the "important" nodes from area.
+ *
+ * TODO add filter rules, like filter useless container (how to defined?)
  */
 
 let filter = (topNode, filterOptions) => {

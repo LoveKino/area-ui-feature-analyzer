@@ -8,12 +8,16 @@ let {
     genContentDetectionRules
 } = require('./content');
 
+let {
+    getStyleDetectionRules
+} = require('./style');
+
 /**
  * extract features from node
  */
 
 module.exports = (node, {
-    rectBlurRatio = 1.5, minGridWidth = 0, minGridHeight = 0, contentRules
+    rectBlurRatio = 1.5, minGridWidth = 0, minGridHeight = 0, contentRules, customContentRules = {}, styleItems
 } = {}) => {
     let pageSize = getPageSize();
 
@@ -26,7 +30,8 @@ module.exports = (node, {
 
     return {
         content: genContentDetectionRules(node, {
-            contentRules
+            contentRules,
+            customContentRules
         }),
 
         scope,
@@ -36,7 +41,9 @@ module.exports = (node, {
             minGridWidth,
             minGridHeight
         }),
-        style: []
+        style: getStyleDetectionRules(node, {
+            styleItems
+        })
     };
 };
 
