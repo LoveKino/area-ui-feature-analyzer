@@ -1,6 +1,6 @@
 {
   "name": "area-ui-feature-analyzer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "an analyzer used to extract UI features from an area",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,6 @@
   "dependencies": {
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
-    "ui-description-view": "0.0.11"
+    "ui-description-view": "0.0.12"
   }
 }
