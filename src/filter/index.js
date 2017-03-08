@@ -18,8 +18,8 @@ let {
 let filter = (topNode, filterOptions) => {
     let rets = [];
 
-    if (topNode.nodeType !== 1 ||
-        topNode.nodeType !== 3 ||
+    if (topNode.nodeType !== 1 &&
+        topNode.nodeType !== 3 &&
         topNode.nodeType !== 'imageInnerNode') {
         return rets;
     }
