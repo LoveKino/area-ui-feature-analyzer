@@ -18,6 +18,12 @@ let {
 let filter = (topNode, filterOptions) => {
     let rets = [];
 
+    if (topNode.nodeType !== 1 ||
+        topNode.nodeType !== 3 ||
+        topNode.nodeType !== 'imageInnerNode') {
+        return rets;
+    }
+
     let importance = calImportance(topNode);
     if (importance) {
         rets.push({
