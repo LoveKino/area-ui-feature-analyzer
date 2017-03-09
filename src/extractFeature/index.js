@@ -17,7 +17,7 @@ let {
  */
 
 module.exports = (node, {
-    rectBlurRatio = 1.5, minGridWidth = 0, minGridHeight = 0, contentRules, customContentRules = {}, styleItems
+    rectBlurRatio = 1.5, minGridWidth = 0, minGridHeight = 0, contentRules, customContentRules = {}, styleItems, styleBlur
 } = {}) => {
     let pageSize = getPageSize();
 
@@ -42,7 +42,8 @@ module.exports = (node, {
             minGridHeight
         }),
         style: getStyleDetectionRules(node, {
-            styleItems
+            styleItems,
+            styleBlur
         })
     };
 };

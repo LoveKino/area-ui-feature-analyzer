@@ -28,6 +28,6 @@
   "dependencies": {
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
-    "ui-description-view": "0.0.12"
+    "ui-description-view": "0.0.14"
   }
 }
