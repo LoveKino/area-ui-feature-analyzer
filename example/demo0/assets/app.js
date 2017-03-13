@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 158);
+/******/ 	return __webpack_require__(__webpack_require__.s = 160);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12432,6 +12432,8 @@ let {
     ImageInnerNode
 } = __webpack_require__(10);
 
+let filterRules = __webpack_require__(159);
+
 /**
  * filter the "important" nodes from area.
  *
@@ -12447,28 +12449,31 @@ let filter = (topNode, filterOptions) => {
         return rets;
     }
 
-    let importance = calImportance(topNode);
-    if (importance) {
-        rets.push({
-            node: topNode,
-            importance
-        });
-    }
+    if (filterRules(topNode, filterOptions)) {
+        let importance = calImportance(topNode, filterOptions);
 
-    if (topNode.tagName && topNode.tagName.toLowerCase() === 'img') {
-        rets.push({
-            node: new ImageInnerNode(topNode),
-            importance
-        });
+        if (importance) {
+            rets.push({
+                node: topNode,
+                importance
+            });
+
+            if (topNode.tagName && topNode.tagName.toLowerCase() === 'img') {
+                rets.push({
+                    node: new ImageInnerNode(topNode),
+                    importance
+                });
+            }
+        }
     }
 
     return reduce(topNode.childNodes, (prev, child) => {
-        return prev.concat(filter(child));
+        return prev.concat(filter(child, filterOptions));
     }, rets);
 };
 
 // TODO
-let calImportance = (node) => {
+let calImportance = (node/*, filterOptions*/) => {
     let rect = getBoundRect(node);
     if (!rect.width || !rect.height) return 0;
     return 1;
@@ -12485,19 +12490,94 @@ module.exports = filter;
 
 
 let {
+    contain
+} = __webpack_require__(2);
+
+/**
+ * only atom node
+ */
+module.exports = (node) => {
+    if (node.nodeType === 3) return true;
+    if (node.nodeType === 'imageInnerNode') return true;
+    if (node.nodeType === 1) {
+        if (contain(['input', 'textarea', 'button', 'img', 'select', 'option'], node.nodeName.toLowerCase())) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let atom = __webpack_require__(158);
+let {
+    find
+} = __webpack_require__(2);
+
+let ruleMap = {
+    'atom': atom
+};
+
+/**
+ * filterOptions = {
+ *    doFilter: 'on',
+ *    rules: []
+ * }
+ */
+module.exports = (node, {
+    doFilter, rules
+} = {}) => {
+    if (doFilter === 'on') {
+        let passedRule = find(rules, (ruleName) => {
+            let rule = ruleMap[ruleName];
+            if (rule) {
+                return rule(node);
+            }
+            return false;
+        });
+
+        if (passedRule) return true;
+
+        return false;
+    } else {
+        return true;
+    }
+};
+
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
     search
 } = __webpack_require__(10);
 
 let analyzer = __webpack_require__(38);
 
 window.onload = () => {
-    let rets = analyzer(document.body);
+    let rets = analyzer(document.body, {
+        filterOptions: {
+            doFilter: 'on',
+            rules: ['atom']
+        }
+    });
     rets.forEach((v) => {
         let nodes = search(document.querySelectorAll('*'), v, {
             gridScope: v.scope
         });
 
-        console.log(
+        console.log( // eslint-disable-line
             nodes.length,
             v,
             nodes

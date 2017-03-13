@@ -7,13 +7,18 @@ let {
 let analyzer = require('../../src');
 
 window.onload = () => {
-    let rets = analyzer(document.body);
+    let rets = analyzer(document.body, {
+        filterOptions: {
+            doFilter: 'on',
+            rules: ['atom']
+        }
+    });
     rets.forEach((v) => {
         let nodes = search(document.querySelectorAll('*'), v, {
             gridScope: v.scope
         });
 
-        console.log(
+        console.log( // eslint-disable-line
             nodes.length,
             v,
             nodes

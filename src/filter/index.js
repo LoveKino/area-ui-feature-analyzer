@@ -9,6 +9,8 @@ let {
     ImageInnerNode
 } = require('ui-description-view');
 
+let filterRules = require('./rules');
+
 /**
  * filter the "important" nodes from area.
  *
@@ -24,28 +26,31 @@ let filter = (topNode, filterOptions) => {
         return rets;
     }
 
-    let importance = calImportance(topNode);
-    if (importance) {
-        rets.push({
-            node: topNode,
-            importance
-        });
-    }
+    if (filterRules(topNode, filterOptions)) {
+        let importance = calImportance(topNode, filterOptions);
 
-    if (topNode.tagName && topNode.tagName.toLowerCase() === 'img') {
-        rets.push({
-            node: new ImageInnerNode(topNode),
-            importance
-        });
+        if (importance) {
+            rets.push({
+                node: topNode,
+                importance
+            });
+
+            if (topNode.tagName && topNode.tagName.toLowerCase() === 'img') {
+                rets.push({
+                    node: new ImageInnerNode(topNode),
+                    importance
+                });
+            }
+        }
     }
 
     return reduce(topNode.childNodes, (prev, child) => {
-        return prev.concat(filter(child));
+        return prev.concat(filter(child, filterOptions));
     }, rets);
 };
 
 // TODO
-let calImportance = (node) => {
+let calImportance = (node/*, filterOptions*/) => {
     let rect = getBoundRect(node);
     if (!rect.width || !rect.height) return 0;
     return 1;
