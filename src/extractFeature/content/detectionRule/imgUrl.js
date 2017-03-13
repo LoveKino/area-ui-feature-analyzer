@@ -28,7 +28,8 @@ let genRules = (node) => {
                 extractorType: 'imgUrl',
                 patternType: `url_${name}_equal`,
                 pattern: urlObject[name],
-                name: `img_${name}_equal`
+                name: `img_${name}_equal`,
+                active: true
             });
         }
         return prev;

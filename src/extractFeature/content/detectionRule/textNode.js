@@ -10,7 +10,8 @@ let genRules = (node) => {
     return [{
         extractorType: 'textContent',
         patternType: 'trimEqual',
-        pattern: node.textContent.trim()
+        pattern: node.textContent.trim(),
+        active: true
     }];
 };
 

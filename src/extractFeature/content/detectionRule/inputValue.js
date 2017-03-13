@@ -15,7 +15,8 @@ let genRules = (node) => {
         return [{
             extractorType: 'inputValue',
             patternType: 'trimEqual',
-            pattern: value
+            pattern: value,
+            active: true
         }];
     }
 };

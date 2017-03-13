@@ -18,20 +18,23 @@ let getStyleDetectionRules = (node, {
             return {
                 extractorType: item,
                 patternType: `color_similarity_ge_${styleBlur.colorSimilarity}`,
-                pattern: window.getComputedStyle(node).getPropertyValue(item)
+                pattern: window.getComputedStyle(node).getPropertyValue(item),
+                active: true
             };
         } else if (item === 'font-size') {
             return {
                 extractorType: item,
                 patternType: `around_${styleBlur.fontSizeAround}Percent`,
-                pattern: window.getComputedStyle(node).getPropertyValue(item)
+                pattern: window.getComputedStyle(node).getPropertyValue(item),
+                active: true
             };
         }
 
         return {
             extractorType: item,
             patternType: 'equal',
-            pattern: window.getComputedStyle(node).getPropertyValue(item)
+            pattern: window.getComputedStyle(node).getPropertyValue(item),
+            active: true
         };
     });
 };
