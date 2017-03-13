@@ -9,15 +9,13 @@ let detect = (node) => {
 };
 
 let genRules = (node) => {
-    let placeholderValue = node.getAttribute('placeholder');
     let value = node.getAttribute('value');
 
-    if (placeholderValue && !value) {
-        // placeholder equal
+    if (value) {
         return [{
-            extractorType: 'placeholder',
+            extractorType: 'inputValue',
             patternType: 'trimEqual',
-            pattern: placeholderValue
+            pattern: value
         }];
     }
 };

@@ -6,8 +6,11 @@ let textNode = require('./textNode');
 
 let placeholder = require('./placeholder');
 
+let inputValue = require('./inputValue');
+
 module.exports = {
     imgUrl,
     textNode,
-    placeholder
+    placeholder,
+    inputValue
 };

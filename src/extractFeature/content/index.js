@@ -14,7 +14,7 @@ let rules = require('./detectionRule');
  * ruleName: string
  */
 let genContentDetectionRules = (node, {
-    contentRules = ['imgUrl', 'placeholder', 'textNode'], customContentRules = {}
+    contentRules = ['imgUrl', 'inputValue', 'placeholder', 'textNode'], customContentRules = {}
 } = {}) => {
     rules = mergeMap(rules, customContentRules);
 
