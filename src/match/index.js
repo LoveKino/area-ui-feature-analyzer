@@ -30,7 +30,9 @@ let matchMatrix = (tarTopNode, rules, {
 
         for (let j = 0; j < rules.length; j++) {
             let ruleNode = rules[j];
-            let matchInfo = collectMatchInfos(node, ruleNode);
+            let matchInfo = collectMatchInfos(node, ruleNode, {
+                gridScope: ruleNode.scope
+            });
             matrix[i][j] = {
                 matchInfo, ruleNode
             };
