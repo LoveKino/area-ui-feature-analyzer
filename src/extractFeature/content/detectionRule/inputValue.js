@@ -9,16 +9,14 @@ let detect = (node) => {
 };
 
 let genRules = (node) => {
-    let value = node.getAttribute('value');
+    let value = node.value;
 
-    if (value) {
-        return [{
-            extractorType: 'inputValue',
-            patternType: 'trimEqual',
-            pattern: value,
-            active: true
-        }];
-    }
+    return [{
+        extractorType: 'inputValue',
+        patternType: 'trimEqual',
+        pattern: value,
+        active: true
+    }];
 };
 
 module.exports = {

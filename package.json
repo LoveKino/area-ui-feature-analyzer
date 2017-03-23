@@ -28,6 +28,7 @@
   "dependencies": {
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
-    "ui-description-view": "0.0.20"
+    "cl-jsoneq": "0.0.3",
+    "ui-description-view": "0.0.29"
   }
 }

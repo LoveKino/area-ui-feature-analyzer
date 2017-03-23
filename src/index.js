@@ -14,8 +14,11 @@ let {
 
 let filter = require('./filter');
 let extractFeature = require('./extractFeature');
+let {
+    matchMatrix, partition
+} = require('./match');
 
-module.exports = (topNode, {
+let fetchAreaFeatures = (topNode, {
     filterOptions, featureOptions
 } = {}) => {
     return map(
@@ -28,4 +31,10 @@ module.exports = (topNode, {
                 importance, node
             }, extractFeature(node, featureOptions));
         });
+};
+
+module.exports = {
+    fetchAreaFeatures,
+    matchMatrix,
+    partition
 };
