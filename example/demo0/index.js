@@ -5,7 +5,7 @@ let {
 } = require('ui-description-view');
 
 let {
-    fetchAreaFeatures, matchMatrix, partition
+    fetchAreaFeatures, matchMatrix, partition, matchMask
 } = require('../../src');
 
 window.onload = () => {
@@ -38,9 +38,18 @@ window.onload = () => {
 
     setTimeout(() => {
         document.getElementById('username').value = 'good';
-        console.log('------------------------');
-        console.log(partition(matchMatrix(document.body, rets, {
+        let {
+            matchedNodes, notMatchedNodes
+        } = partition(matchMatrix(document.body, rets, {
             filterOptions
-        })));
+        }));
+
+        let {
+            showMask
+        } = matchMask({
+            matchedNodes, notMatchedNodes
+        });
+
+        showMask();
     }, 1000);
 };

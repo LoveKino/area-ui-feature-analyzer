@@ -4260,6 +4260,12 @@ module.exports = filter;
 let {
     map, mergeMap
 } = __webpack_require__(1);
+let filter = __webpack_require__(43);
+let extractFeature = __webpack_require__(160);
+let {
+    matchMatrix, partition
+} = __webpack_require__(165);
+let matchMask = __webpack_require__(167);
 
 /**
  * analysis area to get some UI features
@@ -4268,12 +4274,6 @@ let {
  *
  * 2. extract "appropriate" features for those "important" nodes.
  */
-
-let filter = __webpack_require__(43);
-let extractFeature = __webpack_require__(160);
-let {
-    matchMatrix, partition
-} = __webpack_require__(165);
 
 let fetchAreaFeatures = (topNode, {
     filterOptions, featureOptions
@@ -4293,7 +4293,8 @@ let fetchAreaFeatures = (topNode, {
 module.exports = {
     fetchAreaFeatures,
     matchMatrix,
-    partition
+    partition,
+    matchMask
 };
 
 
@@ -12884,7 +12885,9 @@ let matchMatrix = (tarTopNode, rules, {
 
         for (let j = 0; j < rules.length; j++) {
             let ruleNode = rules[j];
-            let matchInfo = collectMatchInfos(node, ruleNode);
+            let matchInfo = collectMatchInfos(node, ruleNode, {
+                gridScope: ruleNode.scope
+            });
             matrix[i][j] = {
                 matchInfo, ruleNode
             };
@@ -12982,7 +12985,7 @@ let {
 } = __webpack_require__(9);
 
 let {
-    fetchAreaFeatures, matchMatrix, partition
+    fetchAreaFeatures, matchMatrix, partition, matchMask
 } = __webpack_require__(44);
 
 window.onload = () => {
@@ -13015,11 +13018,115 @@ window.onload = () => {
 
     setTimeout(() => {
         document.getElementById('username').value = 'good';
-        console.log('------------------------');
-        console.log(partition(matchMatrix(document.body, rets, {
+        let {
+            matchedNodes, notMatchedNodes
+        } = partition(matchMatrix(document.body, rets, {
             filterOptions
-        })));
+        }));
+
+        let {
+            showMask
+        } = matchMask({
+            matchedNodes, notMatchedNodes
+        });
+
+        showMask();
     }, 1000);
+};
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
+    n
+} = __webpack_require__(2);
+
+let {
+    forEach
+} = __webpack_require__(1);
+
+let {
+    getBoundRect
+} = __webpack_require__(9);
+
+module.exports = ({
+    matchedNodes, notMatchedNodes
+}) => {
+    let html = document.getElementsByTagName('html')[0];
+    let div = n('div');
+    html.appendChild(div);
+
+    let parentNode = div;
+
+    if (div.createShadowRoot) {
+        let sr = div.createShadowRoot();
+        sr.innerHTML = '<div id="root"></div>';
+
+        parentNode = sr.getElementById('root');
+    }
+
+    let showMask = () => {
+        maskMatchedNodes(matchedNodes, parentNode);
+        maskUnMatchedNodes(notMatchedNodes, parentNode);
+    };
+
+    let closeMask = () => {
+        div.parentNode.removeChild(div);
+    };
+
+    return {
+        showMask,
+        closeMask
+    };
+};
+
+let maskMatchedNodes = (matchedNodes, parentNode) => {
+    forEach(matchedNodes, ({
+        node
+    }) => {
+        let {
+            left, top, width, height
+        } = getBoundRect(node.node);
+
+        parentNode.appendChild(n('div', {
+            style: {
+                position: 'fixed',
+                left,
+                top,
+                width,
+                height,
+                zIndex: 10000,
+                backgroundColor: 'rgba(222, 222, 222, 1)'
+            }
+        }));
+    });
+};
+
+let maskUnMatchedNodes = (notMatchedNodes, parentNode) => {
+    forEach(notMatchedNodes, ({
+        node
+    }) => {
+        let {
+            left, top, width, height
+        } = getBoundRect(node.node);
+
+        parentNode.appendChild(n('div', {
+            style: {
+                position: 'fixed',
+                left,
+                top,
+                width,
+                height,
+                zIndex: 10000,
+                backgroundColor: 'rgba(0, 53, 64, 0.5)'
+            }
+        }));
+    });
 };
 
 

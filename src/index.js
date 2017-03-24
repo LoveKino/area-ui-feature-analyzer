@@ -3,6 +3,12 @@
 let {
     map, mergeMap
 } = require('bolzano');
+let filter = require('./filter');
+let extractFeature = require('./extractFeature');
+let {
+    matchMatrix, partition
+} = require('./match');
+let matchMask = require('./debug/matchMask');
 
 /**
  * analysis area to get some UI features
@@ -11,12 +17,6 @@ let {
  *
  * 2. extract "appropriate" features for those "important" nodes.
  */
-
-let filter = require('./filter');
-let extractFeature = require('./extractFeature');
-let {
-    matchMatrix, partition
-} = require('./match');
 
 let fetchAreaFeatures = (topNode, {
     filterOptions, featureOptions
@@ -36,5 +36,6 @@ let fetchAreaFeatures = (topNode, {
 module.exports = {
     fetchAreaFeatures,
     matchMatrix,
-    partition
+    partition,
+    matchMask
 };
