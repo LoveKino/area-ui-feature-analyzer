@@ -3,8 +3,12 @@
 // TODO show matchedRules and notMatchedRules in view
 
 let {
-    map, reduce
+    map, reduce, interset
 } = require('bolzano');
+
+let {
+    getFontSize, getColor
+} = require('ui-description-view');
 
 let getStyleDetectionRules = (node, {
     styleItems = ['background-color', 'font-size', 'color'], styleBlur = {
@@ -12,14 +16,30 @@ let getStyleDetectionRules = (node, {
         fontSizeAround: 20
     }
 } = {}) => {
-    // only for element node, TODO text node, font-size and color
+    if (node.nodeType === 3) {
+        return getStyleRules(node, {
+            styleItems: interset(styleItems, ['font-size', 'color']),
+            styleBlur
+        });
+    }
+
     if (node.nodeType !== 1) return {
         styleMap: {},
         rules: []
     };
 
+    return getStyleRules(node, {
+        styleItems,
+        styleBlur
+    });
+};
+
+let getStyleRules = (node, {
+    styleItems, styleBlur
+}) => {
     let styleMap = reduce(styleItems, (prev, item) => {
-        prev[item] = window.getComputedStyle(node).getPropertyValue(item);
+        prev[item] = item === 'color' ? getColor(node) :
+            item === 'font-size' ? getFontSize(node) : window.getComputedStyle(node).getPropertyValue(item);
         return prev;
     }, {});
 

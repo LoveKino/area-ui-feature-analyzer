@@ -37,7 +37,6 @@ module.exports = view(({
 }) => {
     return n('div', {
         style: {
-            'font-size': 14,
             border: '1px solid rgba(200, 200, 200, 0.7)',
         }
     }, [

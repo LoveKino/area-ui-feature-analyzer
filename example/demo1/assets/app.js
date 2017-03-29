@@ -893,11 +893,27 @@ let getBoundRect = (node) => {
     if (node.nodeType === 3) {
         let range = document.createRange();
         range.selectNode(node);
-        let rect = range.getClientRects()[0];
+        let rect = range.getClientRects()[0] || range.getBoundingClientRect();
         range.detach();
         return rect;
     } else {
         return node.getBoundingClientRect();
+    }
+};
+
+let getFontSize = (node) => {
+    if (node.nodeType === 3) {
+        return window.getComputedStyle(node.parentNode).getPropertyValue('font-size');
+    } else if (node.nodeType === 1) {
+        return window.getComputedStyle(node).getPropertyValue('font-size');
+    }
+};
+
+let getColor = (node) => {
+    if (node.nodeType === 3) {
+        return window.getComputedStyle(node.parentNode).getPropertyValue('color');
+    } else if (node.nodeType === 1) {
+        return window.getComputedStyle(node).getPropertyValue('color');
     }
 };
 
@@ -931,13 +947,15 @@ ImageInnerNode.prototype.getImageUrl = function() {
 };
 
 let pxToInt = (px) => {
-    return Number(px.substring(0, px.length - 2));
+    return px.indexOf('px') !== -1 ? Number(px.substring(0, px.length - 2)) : Number(px);
 };
 
 module.exports = {
     getBoundRect,
     ImageInnerNode,
-    pxToInt
+    pxToInt,
+    getFontSize,
+    getColor
 };
 
 
@@ -11469,7 +11487,7 @@ let {
 } = __webpack_require__(34);
 
 let {
-    getBoundRect, ImageInnerNode
+    getBoundRect, ImageInnerNode, getFontSize, getColor
 } = __webpack_require__(7);
 
 module.exports = {
@@ -11477,8 +11495,12 @@ module.exports = {
     search,
     gridHelperView,
     blinkView,
+
     getBoundRect,
+    getFontSize,
+    getColor,
     ImageInnerNode,
+
     debugTooler,
     searchIn,
 
@@ -11627,6 +11649,7 @@ let match = (content, rule) => {
     if(pattern === undefined) return false;
 
     let patternWay = getPatternWay(rule);
+
 
     return patternWay(pattern, content);
 };
@@ -11838,16 +11861,22 @@ module.exports = (node) => {
 let onecolor = __webpack_require__(14);
 
 let {
-    pxToInt
+    getFontSize, getColor, pxToInt
 } = __webpack_require__(7);
 
 let getStyle = (styleName) => (node) => {
+    if ((node.nodeType === 1 || node.nodeType === 3) && styleName === 'font-size') {
+        return pxToInt(getFontSize(node));
+    }
+    if ((node.nodeType === 1 || node.nodeType === 3) && styleName === 'color') {
+        return color(getColor(node)).cssa();
+    }
+
     if (node.nodeType !== 1) return null;
+
     let ret = window.getComputedStyle(node).getPropertyValue(styleName);
-    if (styleName === 'background-color' || styleName === 'color') {
+    if (styleName === 'background-color') {
         ret = onecolor(ret).cssa();
-    } else if (styleName === 'font-size') {
-        ret = pxToInt(ret);
     }
     return ret;
 };
@@ -12594,7 +12623,6 @@ module.exports = view(({
 }) => {
     return n('div', {
         style: {
-            'font-size': 14,
             border: '1px solid rgba(200, 200, 200, 0.7)',
         }
     }, [
@@ -13430,8 +13458,12 @@ module.exports = {
 // TODO show matchedRules and notMatchedRules in view
 
 let {
-    map, reduce
+    map, reduce, interset
 } = __webpack_require__(2);
+
+let {
+    getFontSize, getColor
+} = __webpack_require__(9);
 
 let getStyleDetectionRules = (node, {
     styleItems = ['background-color', 'font-size', 'color'], styleBlur = {
@@ -13439,14 +13471,30 @@ let getStyleDetectionRules = (node, {
         fontSizeAround: 20
     }
 } = {}) => {
-    // only for element node, TODO text node, font-size and color
+    if (node.nodeType === 3) {
+        return getStyleRules(node, {
+            styleItems: interset(styleItems, ['font-size', 'color']),
+            styleBlur
+        });
+    }
+
     if (node.nodeType !== 1) return {
         styleMap: {},
         rules: []
     };
 
+    return getStyleRules(node, {
+        styleItems,
+        styleBlur
+    });
+};
+
+let getStyleRules = (node, {
+    styleItems, styleBlur
+}) => {
     let styleMap = reduce(styleItems, (prev, item) => {
-        prev[item] = window.getComputedStyle(node).getPropertyValue(item);
+        prev[item] = item === 'color' ? getColor(node) :
+            item === 'font-size' ? getFontSize(node) : window.getComputedStyle(node).getPropertyValue(item);
         return prev;
     }, {});
 
