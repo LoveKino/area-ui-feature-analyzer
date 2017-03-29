@@ -13002,7 +13002,7 @@ let restoreElement = ({
     }
 };
 
-let hackTextWidth = (nodeType, width) => nodeType === 3 ? width + 12 : width;
+let hackTextWidth = (nodeType, width) => nodeType === 3 ? width + 20 : width;
 
 module.exports = renderNode;
 
