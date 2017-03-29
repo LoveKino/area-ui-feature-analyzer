@@ -12934,7 +12934,7 @@ let renderNode = (ruleNode, options, editResult) => {
             position: 'absolute',
             left,
             top,
-            width,
+            width: hackTextWidth(ruleNode.nodeType, width),
             height,
             cursor: 'pointer',
             backgroundColor: editResult && editResult.type === 'ignore' ? IGNORE_COLOR : editResult && editResult.type === 'upgrade' ? UPGRADE_COLOR : null,
@@ -12956,7 +12956,7 @@ let restoreElement = ({
         position: 'absolute',
         left,
         top,
-        width,
+        width: hackTextWidth(nodeType, width),
         height,
         textAlign: 'left'
     }, styleMap);
@@ -12967,7 +12967,7 @@ let restoreElement = ({
         top,
         padding: 0,
         margin: 0,
-        width: width - 1,
+        width: hackTextWidth(nodeType, width) - 1,
         height: height - 1,
         'border-width': 1,
         textAlign: 'left'
@@ -13001,6 +13001,8 @@ let restoreElement = ({
         }, [contentMap.inputValue || '']);
     }
 };
+
+let hackTextWidth = (nodeType, width) => nodeType === 3 ? width + 12 : width;
 
 module.exports = renderNode;
 
