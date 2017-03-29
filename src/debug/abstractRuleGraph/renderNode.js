@@ -36,7 +36,7 @@ let restoreElement = ({
     nodeName = nodeName && nodeName.toLowerCase();
 
     let {
-        left, top, width, height
+        left, top, width, height, leftOffset = 0
     } = position[2][0];
 
     let styles = mergeMap({
@@ -44,7 +44,8 @@ let restoreElement = ({
         left,
         top,
         width,
-        height
+        height,
+        textAlign: 'left'
     }, styleMap);
 
     let borderedStyles = mergeMap({
@@ -55,13 +56,21 @@ let restoreElement = ({
         margin: 0,
         width: width - 1,
         height: height - 1,
-        'border-width': 1
+        'border-width': 1,
+        textAlign: 'left'
     }, styleMap);
 
     if (nodeType === 3) {
         return n('div', {
             style: styles
-        }, contentMap.textNode);
+        }, [
+            n('div', { // solve the multiple lines problem
+                style: {
+                    display: 'inline-block',
+                    width: leftOffset
+                }
+            }), n('span', contentMap.textNode)
+        ]);
     } else if (nodeType === 'imageInnerNode') {
         return n(`img src="${contentMap.imgUrl}"`, {
             style: styles

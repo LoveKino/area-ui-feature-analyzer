@@ -68,6 +68,7 @@ module.exports = view(({
                 }
             })
         ]),
+
         n('div', {
             style: {
                 position: 'relative',

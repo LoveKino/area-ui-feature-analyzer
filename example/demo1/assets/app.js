@@ -886,6 +886,13 @@ module.exports = function HSL(color) {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(140);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -893,7 +900,51 @@ let getBoundRect = (node) => {
     if (node.nodeType === 3) {
         let range = document.createRange();
         range.selectNode(node);
-        let rect = range.getClientRects()[0] || range.getBoundingClientRect();
+        let clientRects = range.getClientRects();
+        clientRects = Array.prototype.slice.call(clientRects);
+
+        if (!clientRects.length) return {
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0,
+            right: 0,
+            bottom: 0
+        };
+
+        let {
+            lefts, rights, tops, bottoms, widths, heights
+        } = clientRects.reduce((prev, {
+            left, right, bottom, top, width, height
+        }) => {
+            prev.lefts.push(left);
+            prev.rights.push(right);
+            prev.bottoms.push(bottom);
+            prev.tops.push(top);
+            prev.widths.push(width);
+            prev.heights.push(height);
+
+            return prev;
+        }, {
+            lefts: [],
+            rights: [],
+            tops: [],
+            bottoms: [],
+            widths: [],
+            heights: []
+        });
+
+        let rect = {
+            left: Math.min(...lefts),
+            top: Math.min(...tops),
+            width: Math.max(...widths),
+            height: clientRects.reduce((prev, {
+                height
+            }) => prev + height, 0),
+            right: Math.max(...rights),
+            bottom: Math.max(...bottoms)
+        };
+        rect.leftOffset = clientRects[0].left - rect.left;
         range.detach();
         return rect;
     } else {
@@ -960,7 +1011,7 @@ module.exports = {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -979,13 +1030,6 @@ module.exports = (expView, expandor) => {
         expandor
     ]);
 };
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(140);
 
 
 /***/ }),
@@ -3087,7 +3131,7 @@ let {
 
 let {
     getBoundRect
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let match = (node, {
     position,
@@ -3097,11 +3141,16 @@ let match = (node, {
     gridScope
 } = {}) => {
     let {
-        bottom, height, left, right, top, width
+        bottom, height, left, right, top, width, leftOffset
     } = getBoundRect(node);
     let rect = {
-        bottom, height, left, right, top, width
+        bottom, height, left, right, top, width, leftOffset
     };
+
+    if(node.nodeType === 3 && node.textContent.indexOf('text') !== -1) {
+        console.log(node, rect, position, gridScope);
+        console.log(insideBox(rect, position, gridScope));
+    }
 
     return insideBox(rect, position, gridScope) && any(content, (item) => {
         return matchContent.match(matchContent.getContent(node, item), item);
@@ -3116,7 +3165,12 @@ let collectMatchInfos = (node, {
 }, {
     gridScope
 } = {}) => {
-    let rect = getBoundRect(node);
+    let {
+        bottom, height, left, right, top, width, leftOffset
+    } = getBoundRect(node);
+    let rect = {
+        bottom, height, left, right, top, width, leftOffset
+    };
 
     return {
         position: [
@@ -4283,7 +4337,7 @@ let {
 let {
     getBoundRect,
     ImageInnerNode
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 
 let filterRules = __webpack_require__(174);
 
@@ -7605,7 +7659,7 @@ let {
 
 let VariableDeclareView = __webpack_require__(111);
 
-let expandorWrapper = __webpack_require__(8);
+let expandorWrapper = __webpack_require__(9);
 
 let {
     VARIABLE
@@ -7671,7 +7725,7 @@ module.exports = view(({
 "use strict";
 
 
-let expandorWrapper = __webpack_require__(8);
+let expandorWrapper = __webpack_require__(9);
 
 module.exports = ({
     getOptionsView,
@@ -7706,7 +7760,7 @@ let {
 
 let InputView = __webpack_require__(105);
 
-let expandorWrapper = __webpack_require__(8);
+let expandorWrapper = __webpack_require__(9);
 
 const {
     INLINE_TYPES, DEFAULT_DATA_MAP
@@ -7808,7 +7862,7 @@ let {
     map
 } = __webpack_require__(2);
 
-let expandorWrapper = __webpack_require__(8);
+let expandorWrapper = __webpack_require__(9);
 
 module.exports = view(({
     value,
@@ -7859,7 +7913,7 @@ let {
     n, view
 } = __webpack_require__(0);
 
-let expandorWrapper = __webpack_require__(8);
+let expandorWrapper = __webpack_require__(9);
 
 module.exports = view(({
     getOptionsView, getExpandor
@@ -11422,7 +11476,7 @@ let search = __webpack_require__(39);
 let blinkView = __webpack_require__(41);
 let {
     getBoundRect
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let lightupSearch = (parent, gridScope, topNode) => {
     let hintGrid = gridHelperView({
@@ -11488,7 +11542,7 @@ let {
 
 let {
     getBoundRect, ImageInnerNode, getFontSize, getColor
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 module.exports = {
     udView,
@@ -11638,7 +11692,7 @@ let onecolor = __webpack_require__(14);
 
 let {
     pxToInt
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let match = (content, rule) => {
     if (rule.active === false) return true;
@@ -11862,7 +11916,7 @@ let onecolor = __webpack_require__(14);
 
 let {
     getFontSize, getColor, pxToInt
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let getStyle = (styleName) => (node) => {
     if ((node.nodeType === 1 || node.nodeType === 3) && styleName === 'font-size') {
@@ -11901,7 +11955,7 @@ let {
 
 let {
     ImageInnerNode
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let expandNodes = (nodes) => {
     nodes = reduce(nodes, (prev, node) => {
@@ -12654,6 +12708,7 @@ module.exports = view(({
                 }
             })
         ]),
+
         n('div', {
             style: {
                 position: 'relative',
@@ -12789,7 +12844,7 @@ let {
 
 let {
     udView
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 
 
 let Fold = __webpack_require__(11);
@@ -12894,7 +12949,7 @@ let restoreElement = ({
     nodeName = nodeName && nodeName.toLowerCase();
 
     let {
-        left, top, width, height
+        left, top, width, height, leftOffset = 0
     } = position[2][0];
 
     let styles = mergeMap({
@@ -12902,7 +12957,8 @@ let restoreElement = ({
         left,
         top,
         width,
-        height
+        height,
+        textAlign: 'left'
     }, styleMap);
 
     let borderedStyles = mergeMap({
@@ -12913,13 +12969,21 @@ let restoreElement = ({
         margin: 0,
         width: width - 1,
         height: height - 1,
-        'border-width': 1
+        'border-width': 1,
+        textAlign: 'left'
     }, styleMap);
 
     if (nodeType === 3) {
         return n('div', {
             style: styles
-        }, contentMap.textNode);
+        }, [
+            n('div', { // solve the multiple lines problem
+                style: {
+                    display: 'inline-block',
+                    width: leftOffset
+                }
+            }), n('span', contentMap.textNode)
+        ]);
     } else if (nodeType === 'imageInnerNode') {
         return n(`img src="${contentMap.imgUrl}"`, {
             style: styles
@@ -12958,7 +13022,7 @@ let {
 
 let {
     getBoundRect
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 
 module.exports = ({
     matchedNodes, notMatchedNodes
@@ -13375,7 +13439,7 @@ let getPageSize = () => {
 
 let {
     getBoundRect
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 
 let genPositionDetectionRule = (node, {
     scope,
@@ -13416,7 +13480,8 @@ let genPositionDetectionRule = (node, {
             width: rect.width,
             height: rect.height,
             bottom: rect.bottom,
-            right: rect.right
+            right: rect.right,
+            leftOffset: rect.leftOffset
         },
         rectBlurRatio
     ]];
@@ -13463,7 +13528,7 @@ let {
 
 let {
     getFontSize, getColor
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 
 let getStyleDetectionRules = (node, {
     styleItems = ['background-color', 'font-size', 'color'], styleBlur = {
@@ -13613,7 +13678,7 @@ module.exports = (node, {
 let filterNodes = __webpack_require__(46);
 let {
     collectMatchInfos
-} = __webpack_require__(9);
+} = __webpack_require__(7);
 let {
     any, reduce, filter, map, deRepeat, difference
 } = __webpack_require__(2);

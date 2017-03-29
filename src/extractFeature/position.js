@@ -43,7 +43,8 @@ let genPositionDetectionRule = (node, {
             width: rect.width,
             height: rect.height,
             bottom: rect.bottom,
-            right: rect.right
+            right: rect.right,
+            leftOffset: rect.leftOffset
         },
         rectBlurRatio
     ]];
