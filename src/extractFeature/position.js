@@ -37,7 +37,16 @@ let genPositionDetectionRule = (node, {
             ]
         ];
 
-    return [grid, area, [rect, rectBlurRatio]];
+    return [grid, area, [{
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+            bottom: rect.bottom,
+            right: rect.right
+        },
+        rectBlurRatio
+    ]];
 };
 
 let blur = (rect, rectBlurRatio, {
