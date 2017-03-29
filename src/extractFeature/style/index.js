@@ -1,7 +1,9 @@
 'use strict';
 
+// TODO show matchedRules and notMatchedRules in view
+
 let {
-    map
+    map, reduce
 } = require('bolzano');
 
 let getStyleDetectionRules = (node, {
@@ -10,33 +12,45 @@ let getStyleDetectionRules = (node, {
         fontSizeAround: 20
     }
 } = {}) => {
-    // only for element node
-    if (node.nodeType !== 1) return [];
+    // only for element node, TODO text node, font-size and color
+    if (node.nodeType !== 1) return {
+        styleMap: {},
+        rules: []
+    };
 
-    return map(styleItems, (item) => {
-        if (item === 'background-color' || item === 'color') {
+    let styleMap = reduce(styleItems, (prev, item) => {
+        prev[item] = window.getComputedStyle(node).getPropertyValue(item);
+        return prev;
+    }, {});
+
+    return {
+        styleMap,
+
+        rules: map(styleItems, (item) => {
+            if (item === 'background-color' || item === 'color') {
+                return {
+                    extractorType: item,
+                    patternType: `color_similarity_ge_${styleBlur.colorSimilarity}`,
+                    pattern: styleMap[item],
+                    active: true
+                };
+            } else if (item === 'font-size') {
+                return {
+                    extractorType: item,
+                    patternType: `around_${styleBlur.fontSizeAround}Percent`,
+                    pattern: styleMap[item],
+                    active: true
+                };
+            }
+
             return {
                 extractorType: item,
-                patternType: `color_similarity_ge_${styleBlur.colorSimilarity}`,
-                pattern: window.getComputedStyle(node).getPropertyValue(item),
+                patternType: 'equal',
+                pattern: styleMap[item],
                 active: true
             };
-        } else if (item === 'font-size') {
-            return {
-                extractorType: item,
-                patternType: `around_${styleBlur.fontSizeAround}Percent`,
-                pattern: window.getComputedStyle(node).getPropertyValue(item),
-                active: true
-            };
-        }
-
-        return {
-            extractorType: item,
-            patternType: 'equal',
-            pattern: window.getComputedStyle(node).getPropertyValue(item),
-            active: true
-        };
-    });
+        })
+    };
 };
 
 module.exports = {

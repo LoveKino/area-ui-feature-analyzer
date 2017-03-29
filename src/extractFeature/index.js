@@ -12,6 +12,8 @@ let {
     getStyleDetectionRules
 } = require('./style');
 
+let uuidV4 = require('uuid/v4');
+
 /**
  * extract features from node
  */
@@ -28,11 +30,20 @@ module.exports = (node, {
         height: pageSize.height
     };
 
+    let contentDetectRets = genContentDetectionRules(node, {
+        contentRules,
+        customContentRules
+    });
+
+    let styleDetectRets = getStyleDetectionRules(node, {
+        styleItems,
+        styleBlur
+    });
+
     return {
-        content: genContentDetectionRules(node, {
-            contentRules,
-            customContentRules
-        }),
+        content: contentDetectRets.rules,
+
+        contentMap: contentDetectRets.contentMap,
 
         scope,
         position: genPositionDetectionRule(node, {
@@ -41,10 +52,16 @@ module.exports = (node, {
             minGridWidth,
             minGridHeight
         }),
-        style: getStyleDetectionRules(node, {
-            styleItems,
-            styleBlur
-        })
+
+        style: styleDetectRets.rules,
+
+        styleMap: styleDetectRets.styleMap,
+
+        nodeName: node.nodeName,
+
+        nodeType: node.nodeType,
+
+        id: uuidV4()
     };
 };
 

@@ -18,10 +18,12 @@ let genPositionDetectionRule = (node, {
         maxGridWidth: scope.width, maxGridHeight: scope.height
     });
 
-    let m = Math.floor(scope.width / bluredRect.width);
-    let n = Math.floor(scope.height / bluredRect.height);
+    let m = Math.floor(scope.width / rect.width);
+    let n = Math.floor(scope.height / rect.height);
+
     let unitWidth = scope.width / m,
         unitHeight = scope.height / n;
+
 
     let grid = [m, n],
         area = [
@@ -30,12 +32,12 @@ let genPositionDetectionRule = (node, {
                 Math.floor(bluredRect.y / unitHeight)
             ],
             [
-                Math.ceil((bluredRect.x + bluredRect.width) / unitWidth),
-                Math.ceil((bluredRect.y + bluredRect.height) / unitHeight)
+                Math.floor((bluredRect.x + bluredRect.width) / unitWidth),
+                Math.floor((bluredRect.y + bluredRect.height) / unitHeight)
             ]
         ];
 
-    return [grid, area];
+    return [grid, area, [rect, rectBlurRatio]];
 };
 
 let blur = (rect, rectBlurRatio, {

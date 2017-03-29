@@ -26,15 +26,22 @@ let genContentDetectionRules = (node, {
 
         if (rule) {
             let {
-                detect, genRules
+                detect, getContent, genRules
             } = rule;
+
             if (detect(node)) {
-                prev = prev.concat(genRules(node) || []);
+                let cnt = getContent(node);
+                prev.contentMap[item] = cnt;
+
+                prev.rules = prev.rules.concat(genRules(cnt) || []);
             }
         }
 
         return prev;
-    }, []);
+    }, {
+        rules: [],
+        contentMap: {}
+    });
 };
 
 module.exports = {

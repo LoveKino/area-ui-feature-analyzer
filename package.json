@@ -30,6 +30,9 @@
     "bolzano": "^0.1.1",
     "cl-jsoneq": "0.0.3",
     "kabanery": "^0.1.6",
-    "ui-description-view": "0.0.29"
+    "kabanery-fold": "0.0.2",
+    "kabanery-modal": "0.0.1",
+    "ui-description-view": "0.0.29",
+    "uuid": "^3.0.1"
   }
 }

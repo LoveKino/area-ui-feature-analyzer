@@ -8,9 +8,7 @@ let detect = (node) => {
     return getTagName(node) === 'input' || getTagName(node) === 'textarea';
 };
 
-let genRules = (node) => {
-    let value = node.value;
-
+let genRules = (value) => {
     return [{
         extractorType: 'inputValue',
         patternType: 'trimEqual',
@@ -19,7 +17,12 @@ let genRules = (node) => {
     }];
 };
 
+let getContent = (node) => {
+    return node.value;
+};
+
 module.exports = {
     detect,
-    genRules
+    genRules,
+    getContent
 };

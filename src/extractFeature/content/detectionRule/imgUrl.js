@@ -14,10 +14,7 @@ let detect = (node) => {
     return getTagName(node) === 'img' || node.nodeType === 'imageInnerNode';
 };
 
-let genRules = (node) => {
-    // img url?
-    // strict mode
-    let imgUrl = getUrl(node);
+let genRules = (imgUrl) => {
     if (!imgUrl) return;
 
     let urlObject = url.parse(imgUrl);
@@ -36,7 +33,7 @@ let genRules = (node) => {
     }, []);
 };
 
-let getUrl = (node) => {
+let getContent = (node) => {
     if (node.nodeType === 'imageInnerNode') {
         return node.getImageUrl();
     } else {
@@ -46,5 +43,6 @@ let getUrl = (node) => {
 
 module.exports = {
     detect,
+    getContent,
     genRules
 };
