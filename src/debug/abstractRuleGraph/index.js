@@ -100,8 +100,13 @@ let renderRuleNode = view(({
     nodeName = nodeName && nodeName.toLowerCase();
 
     let onchangeEditResults = (value) => {
-        editResults[value.ruleNode.id] = value;
-        onchange && onchange(value);
+        let id = value.ruleNode.id;
+        if (value.doCancel) {
+            delete editResults[id];
+        } else {
+            editResults[id] = value;
+        }
+        onchange && onchange(value, editResults);
     };
 
     // TODO render edit results
@@ -131,9 +136,12 @@ let renderRuleNode = view(({
             }, editResults[ruleNode.id]),
 
             modify && ModifyRuleNodeView({
-                onIgnore: (ruleNode) => {
+                editResult: editResults[ruleNode.id],
+
+                onIgnore: (ruleNode, doCancel) => {
                     onchangeEditResults({
                         ruleNode,
+                        doCancel,
                         type: 'ignore'
                     });
                     update('modify', false);
@@ -141,9 +149,10 @@ let renderRuleNode = view(({
 
                 ruleNode,
 
-                onUpgrade: (ruleNode) => {
+                onUpgrade: (ruleNode, doCancel) => {
                     onchangeEditResults({
                         ruleNode,
+                        doCancel,
                         type: 'upgrade'
                     });
                     update('modify', false);

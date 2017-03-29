@@ -17,10 +17,14 @@ let Fold = require('kabanery-fold');
 let FoldArrow = require('kabanery-fold/lib/foldArrow');
 
 module.exports = view(({
+    editResult,
     ruleNode,
     onIgnore,
     onUpgrade
 }) => {
+    let doCancelIgnore = editResult && editResult.type === 'ignore';
+    let doCancelUpgrade = editResult && editResult.type === 'upgrade';
+
     return modal({
         content: n('div', {
             style: {
@@ -45,16 +49,16 @@ module.exports = view(({
                     n('button', {
                         onclick: (e) => {
                             e.stopPropagation();
-                            onIgnore && onIgnore(ruleNode);
+                            onIgnore && onIgnore(ruleNode, doCancelIgnore);
                         }
-                    }, 'ignore'),
+                    }, doCancelIgnore ? 'cancel ignore' : 'ignore'),
 
                     n('button', {
                         onclick: (e) => {
                             e.stopPropagation();
-                            onUpgrade && onUpgrade(ruleNode);
+                            onUpgrade && onUpgrade(ruleNode, doCancelUpgrade);
                         }
-                    }, 'upgrade')
+                    }, doCancelUpgrade ? 'cancel upgrade' : 'upgrade')
                 ]),
 
                 body: () => [
