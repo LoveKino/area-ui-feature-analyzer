@@ -7,29 +7,9 @@ let {
     mergeMap
 } = require('bolzano');
 
-let {
-    IGNORE_COLOR, UPGRADE_COLOR
-} = require('./const');
-
-let renderNode = (ruleNode, options, editResult) => {
-    let {
-        left, top, width, height
-    } = ruleNode.position[2][0];
-
-    return [n('div', mergeMap({
-        style: {
-            position: 'absolute',
-            left,
-            top,
-            width: hackTextWidth(ruleNode.nodeType, width),
-            height,
-            cursor: 'pointer',
-            backgroundColor: editResult && editResult.type === 'ignore' ? IGNORE_COLOR : editResult && editResult.type === 'upgrade' ? UPGRADE_COLOR : null,
-            zIndex: (ruleNode.styleMap.index || 0) + 100
-        }
-    }, options)), restoreElement(ruleNode)];
-};
-
+/**
+ * recovery a element from ruleNode
+ */
 let restoreElement = ({
     contentMap, styleMap, nodeType, position, nodeName
 }) => {
@@ -89,6 +69,27 @@ let restoreElement = ({
     }
 };
 
+let elementMask = (ruleNode, maskColor, options) => {
+    let {
+        left, top, width, height
+    } = ruleNode.position[2][0];
+
+    return n('div', mergeMap({
+        style: {
+            position: 'absolute',
+            left,
+            top,
+            width: hackTextWidth(ruleNode.nodeType, width),
+            height,
+            cursor: 'pointer',
+            backgroundColor: maskColor,
+            zIndex: (ruleNode.styleMap.index || 0) + 100
+        }
+    }, options));
+};
+
 let hackTextWidth = (nodeType, width) => nodeType === 3 ? width + 20 : width;
 
-module.exports = renderNode;
+module.exports = {
+    restoreElement, hackTextWidth, elementMask
+};

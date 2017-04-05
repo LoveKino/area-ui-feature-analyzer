@@ -10,6 +10,7 @@ let {
 } = require('./match');
 let matchMask = require('./debug/matchMask');
 let abstractRuleGraph = require('./debug/abstractRuleGraph');
+let ruleMatchMask = require('./debug/ruleMatchMask');
 
 /**
  * analysis area to get some UI features
@@ -39,5 +40,6 @@ module.exports = {
     matchMatrix,
     partition,
     matchMask,
+    ruleMatchMask,
     abstractRuleGraph
 };

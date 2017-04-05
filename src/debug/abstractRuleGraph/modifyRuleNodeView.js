@@ -12,7 +12,6 @@ let {
     udView
 } = require('ui-description-view');
 
-
 let Fold = require('kabanery-fold');
 let FoldArrow = require('kabanery-fold/lib/foldArrow');
 

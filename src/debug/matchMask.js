@@ -12,6 +12,9 @@ let {
     getBoundRect
 } = require('ui-description-view');
 
+/**
+ * overlay a mask to current page to show which parts are matched, which parts are not matched
+ */
 module.exports = ({
     matchedNodes, notMatchedNodes
 }) => {

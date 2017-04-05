@@ -460,6 +460,13 @@ module.exports = {
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(141);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -567,7 +574,7 @@ module.exports = {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -848,7 +855,7 @@ module.exports = {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function HSL(color) {
@@ -880,13 +887,6 @@ module.exports = function HSL(color) {
         }
     });
 };
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(141);
 
 
 /***/ }),
@@ -1326,7 +1326,7 @@ module.exports = __webpack_require__(123)
     .use(__webpack_require__(33))
     .use(__webpack_require__(122))
     .use(__webpack_require__(32))
-    .use(__webpack_require__(6))
+    .use(__webpack_require__(7))
     .use(__webpack_require__(121))
 
     // Convenience functions
@@ -4316,7 +4316,7 @@ module.exports = {
     IGNORE_COLOR: 'rgba(222, 222, 222, 1)',
     UPGRADE_COLOR: 'rgba(0, 53, 64, 0.5)',
 
-    MATCHED_COLOR: 'rgba(222, 222, 222, 1)',
+    MATCHED_COLOR: 'rgba(222, 222, 222, 0.7)',
     NOT_MATCHED_COLOR: 'rgba(0, 53, 64, 0.5)'
 };
 
@@ -4437,7 +4437,7 @@ let {
 let {
     getBoundRect,
     ImageInnerNode
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 
 let filterRules = __webpack_require__(176);
 
@@ -6511,7 +6511,7 @@ let {
 
 let {
     map
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 module.exports = (...args) => {
     let tagName = args[0],
@@ -6559,7 +6559,7 @@ module.exports = (...args) => {
 
 let {
     findIndex, contain, map, forEach
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 module.exports = () => {
     let matrix = {};
@@ -6780,7 +6780,7 @@ let {
 
 let {
     flat, forEach
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 module.exports = (rootNode, parentNode) => {
     rootNode = flat(rootNode);
@@ -6892,7 +6892,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let applyAttibutes = (node, newNode) => {
     // attributes
@@ -6943,7 +6943,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let applyAttibutes = __webpack_require__(82);
 
@@ -7073,7 +7073,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let replace = __webpack_require__(83);
 
@@ -7425,7 +7425,7 @@ let {
     getPredicateMetaInfo,
     getPredicatePath,
     infixTypes
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 let {
     get
@@ -7477,7 +7477,7 @@ module.exports = ({
 
 let {
     getPredicatePath, getPredicateMetaInfo
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 let {
     map, mergeMap
@@ -7607,7 +7607,7 @@ let {
     getExpressionType,
     getPredicatePath,
     getPredicateMetaInfo
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 let {
     JSON_DATA,
@@ -7675,7 +7675,7 @@ let LetaUIView = __webpack_require__(98);
 
 let {
     runner, getLambdaUiValue
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 let {
     dsl
@@ -7870,7 +7870,7 @@ const {
 
 let {
     getDataTypePath
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 /**
  * used to define json data
@@ -8069,7 +8069,7 @@ let {
     expressionTypes,
     isUIPredicate,
     getUIPredicatePath
-} = __webpack_require__(5);
+} = __webpack_require__(6);
 
 /**
  * lambda UI editor
@@ -10498,7 +10498,7 @@ module.exports = function clearer(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function darken(color) {
-    color.use(__webpack_require__(6));
+    color.use(__webpack_require__(7));
 
     color.installMethod('darken', function (amount) {
         return this.lightness(isNaN(amount) ? -0.1 : -amount, true);
@@ -10511,7 +10511,7 @@ module.exports = function darken(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function desaturate(color) {
-    color.use(__webpack_require__(6));
+    color.use(__webpack_require__(7));
 
     color.installMethod('desaturate', function (amount) {
         return this.saturation(isNaN(amount) ? -0.1 : -amount, true);
@@ -10541,7 +10541,7 @@ module.exports = function grayscale(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function lighten(color) {
-    color.use(__webpack_require__(6));
+    color.use(__webpack_require__(7));
 
     color.installMethod('lighten', function (amount) {
         return this.lightness(isNaN(amount) ? 0.1 : amount, true);
@@ -10760,7 +10760,7 @@ module.exports = function opaquer(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function rotate(color) {
-    color.use(__webpack_require__(6));
+    color.use(__webpack_require__(7));
 
     color.installMethod('rotate', function (degrees) {
         return this.hue((degrees || 0) / 360, true);
@@ -10773,7 +10773,7 @@ module.exports = function rotate(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function saturate(color) {
-    color.use(__webpack_require__(6));
+    color.use(__webpack_require__(7));
 
     color.installMethod('saturate', function (amount) {
         return this.saturation(isNaN(amount) ? 0.1 : amount, true);
@@ -12929,7 +12929,7 @@ let {
 
 let {
     udView
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 
 let Fold = __webpack_require__(11);
 let FoldArrow = __webpack_require__(21);
@@ -13007,7 +13007,7 @@ let {
 
 let {
     getBoundRect
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 
 /**
  * overlay a mask to current page to show which parts are matched, which parts are not matched
@@ -13128,7 +13128,7 @@ module.exports = view(({
                 padding: 10
             }
         }, [
-            n('label', 'matched'),
+            n('label', 'matched rule'),
             n('div', {
                 style: {
                     display: 'inline-block',
@@ -13139,7 +13139,7 @@ module.exports = view(({
                     marginLeft: 5
                 }
             }),
-            n('label', 'not matched'),
+            n('label', 'not matched rule'),
             n('div', {
                 style: {
                     display: 'inline-block',
@@ -13609,7 +13609,7 @@ let getPageSize = () => {
 
 let {
     getBoundRect
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 
 let genPositionDetectionRule = (node, {
     scope,
@@ -13698,7 +13698,7 @@ let {
 
 let {
     getFontSize, getColor
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 
 let getStyleDetectionRules = (node, {
     styleItems = ['background-color', 'font-size', 'color'], styleBlur = {
@@ -13848,7 +13848,7 @@ module.exports = (node, {
 let filterNodes = __webpack_require__(47);
 let {
     collectMatchInfos
-} = __webpack_require__(7);
+} = __webpack_require__(4);
 let {
     any, reduce, filter, map, deRepeat, difference
 } = __webpack_require__(1);
@@ -13971,7 +13971,7 @@ module.exports = {
 
 
 let {
-    fetchAreaFeatures, abstractRuleGraph
+    fetchAreaFeatures, matchMatrix, partition, ruleMatchMask
 } = __webpack_require__(48);
 
 window.onload = () => {
@@ -13979,18 +13979,26 @@ window.onload = () => {
         doFilter: 'on',
         rules: ['atom']
     };
-
     let ruleNodes = fetchAreaFeatures(document.body, {
         filterOptions
     });
 
-    document.getElementById('abs-rule').appendChild(
-        abstractRuleGraph({
-            ruleNodes,
-            width: 300,
-            height: 500
-        })
-    );
+    setTimeout(() => {
+        document.getElementById('username').value = 'good';
+        let {
+            matchedRules, notMatchedRules
+        } = partition(matchMatrix(document.body, ruleNodes, {
+            filterOptions
+        }));
+
+        let mask = ruleMatchMask({
+            matchedRules,
+            notMatchedRules,
+            ruleNodes
+        });
+
+        document.getElementById('rule-mask').appendChild(mask);
+    }, 1000);
 };
 
 

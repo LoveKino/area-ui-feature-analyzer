@@ -5,16 +5,20 @@ let {
 } = require('kabanery');
 
 let {
-    map, mergeMap
+    map
 } = require('bolzano');
 
 let ModifyRuleNodeView = require('./modifyRuleNodeView');
 
-let renderNode = require('./renderNode');
+let areaMask = require('../util/areaMask');
+
+let {
+    restoreElement, elementMask
+} = require('../util/restoreElement');
 
 let {
     IGNORE_COLOR, UPGRADE_COLOR
-} = require('./const');
+} = require('../util/const');
 
 /**
  * build abstract rule graph
@@ -40,6 +44,7 @@ module.exports = view(({
             border: '1px solid rgba(200, 200, 200, 0.7)',
         }
     }, [
+        // head description
         n('div', {
             style: {
                 padding: 10
@@ -95,7 +100,7 @@ let renderRuleNode = view(({
     update
 }) => {
     let {
-        nodeType, nodeName, position, scope
+        nodeType, nodeName
     } = ruleNode;
     nodeName = nodeName && nodeName.toLowerCase();
 
@@ -109,31 +114,26 @@ let renderRuleNode = view(({
         onchange && onchange(value, editResults);
     };
 
-    // TODO render edit results
-
     if (nodeType === 'imageInnerNode' ||
         nodeType === 3 ||
         nodeName === 'input' ||
         nodeName === 'textarea') {
+        let editResult = editResults[ruleNode.id];
+
+        let elementMaskColor = editResult && editResult.type === 'ignore' ? IGNORE_COLOR : editResult && editResult.type === 'upgrade' ? UPGRADE_COLOR : null;
 
         return n('div', [
             // area mask
-            n('div', {
-                style: mergeMap({
-                    position: 'absolute',
-                    textAlign: 'center',
-                    display: 'flex',
-                    'align-items': 'center',
-                    'justify-content': 'center',
-                    border: showRule ? '1px solid rgba(200, 200, 200, 0.4)' : 0
-                }, getPosition(position, scope))
+            areaMask({
+                showRule,
+                ruleNode
             }),
 
             renderNode(ruleNode, {
                 onclick: () => {
                     update('modify', true);
                 }
-            }, editResults[ruleNode.id]),
+            }, elementMaskColor),
 
             modify && ModifyRuleNodeView({
                 editResult: editResults[ruleNode.id],
@@ -162,26 +162,9 @@ let renderRuleNode = view(({
     }
 });
 
-let getPosition = ([
-    [gw, gh],
-    [
-        [x1, y1], // left top
-        [x2, y2] // right bottom
-    ]
-], {
-    width, height
-}) => {
-    let uw = (width / gw),
-        uh = (height / gh);
-    let w = uw * (x2 - x1);
-    let h = uh * (y2 - y1);
-    let left = uw * x1,
-        top = uh * y1;
-
-    return {
-        width: w,
-        height: h,
-        left,
-        top
-    };
+let renderNode = (ruleNode, options, elementMaskColor) => {
+    return [
+        elementMask(ruleNode, elementMaskColor, options),
+        restoreElement(ruleNode)
+    ];
 };
