@@ -21,7 +21,7 @@ let genRules = (placeholder) => {
 
 let getContent = (node) => {
     let value = node.value;
-    let placeholder = node.getAttribute('placeholder');
+    let placeholder = node.getAttribute('placeholder') || '';
     if (value) return undefined;
     return placeholder;
 };
