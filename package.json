@@ -1,10 +1,11 @@
 {
   "name": "area-ui-feature-analyzer",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "an analyzer used to extract UI features from an area",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha \"test/function/**/*.js\"",
+    "unit-test": "deftest -s src -t test/unit/test -d test/unit/dest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,8 @@
   },
   "homepage": "https://github.com/LoveKino/area-ui-feature-analyzer#readme",
   "devDependencies": {
+    "defcomment": "^0.4.7",
+    "mocha": "^3.2.0",
     "webpack": "^2.2.1"
   },
   "dependencies": {

@@ -57,18 +57,21 @@ let getPositionArea = (rect, {
         maxGridWidth: scope.width, maxGridHeight: scope.height
     });
 
-    let m = rect.width === 0 ? 3 : Math.floor(scope.width / rect.width);
-    let n = rect.height === 0 ? 3 : Math.floor(scope.height / rect.height);
+    let m = Math.floor(scope.width / rect.width);
+    let n = Math.floor(scope.height / rect.height);
+
+    let unitWidth = scope.width / m,
+        unitHeight = scope.height / n;
 
     let grid = [m, n],
         area = [
             [
-                Math.floor(bluredRect.x * m / scope.width), // using floor to move left
-                Math.floor(bluredRect.y * n / scope.height) // using floor to move top
+                Math.floor(bluredRect.x / unitWidth),
+                Math.floor(bluredRect.y / unitHeight)
             ],
             [
-                Math.ceil((bluredRect.x + bluredRect.width) * m / scope.width), // using ceil to move right
-                Math.ceil((bluredRect.y + bluredRect.height) * n / scope.height) // using ceil to move bottom
+                Math.floor((bluredRect.x + bluredRect.width) / unitWidth),
+                Math.floor((bluredRect.y + bluredRect.height) / unitHeight)
             ]
         ];
 
@@ -112,6 +115,11 @@ let blur = (rect, rectBlurRatio, {
 };
 
 module.exports = {
-    genPositionDetectionRule,
-    getPositionArea
+    genPositionDetectionRule
 };
+
+
+!(function () {
+    var __exportsVariable = require('/Users/yuer/workspaceforme/category/career/container/common/ui/area-ui-feature-analyzer/node_modules/defcomment/src/unit').exportsVariable;
+    __exportsVariable('/Users/yuer/workspaceforme/category/career/container/common/ui/area-ui-feature-analyzer/test/unit/dest/extractFeature/position.js', 'getPositionArea', getPositionArea);
+})();

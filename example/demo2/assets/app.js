@@ -13621,14 +13621,53 @@ let {
     getBoundRect
 } = __webpack_require__(7);
 
-let genPositionDetectionRule = (node, {
+let genPositionDetectionRule = (node, options) => {
+    let rect = getBoundRect(node);
+
+    return getPositionArea(rect, options);
+};
+
+/**
+ *
+ * ## test
+ *
+ * [
+ *    [
+ *      [
+ *          {
+ *              left: 60,
+ *              top: 797,
+ *              width: 14,
+ *              height: 32,
+ *              bottom: 859,
+ *              right: 74
+ *          },
+ *          {
+ *              scope: {
+ *                  width: 874,
+ *                  height: 1200,
+ *                  x: 0,
+ *                  y: 0
+ *              },
+ *
+ *              rectBlurRatio: 1.5,
+ *
+ *              minGridWidth: 0,
+ *              minGridHeight: 0
+ *          }
+ *      ],
+ *
+ *      {
+ *      }
+ *    ]
+ * ]
+ */
+let getPositionArea = (rect, {
     scope,
     rectBlurRatio,
     minGridWidth,
     minGridHeight
 }) => {
-    let rect = getBoundRect(node);
-
     let bluredRect = blur(rect, rectBlurRatio, {
         minGridWidth,
         minGridHeight,
@@ -13640,7 +13679,6 @@ let genPositionDetectionRule = (node, {
 
     let unitWidth = scope.width / m,
         unitHeight = scope.height / n;
-
 
     let grid = [m, n],
         area = [
@@ -13654,17 +13692,22 @@ let genPositionDetectionRule = (node, {
             ]
         ];
 
-    return [grid, area, [{
-            left: rect.left,
-            top: rect.top,
-            width: rect.width,
-            height: rect.height,
-            bottom: rect.bottom,
-            right: rect.right,
-            leftOffset: rect.leftOffset
-        },
-        rectBlurRatio
-    ]];
+    return [
+        grid, area, [
+
+            {
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height,
+                bottom: rect.bottom,
+                right: rect.right,
+                leftOffset: rect.leftOffset
+            },
+
+            rectBlurRatio
+        ]
+    ];
 };
 
 let blur = (rect, rectBlurRatio, {
