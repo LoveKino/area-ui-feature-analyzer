@@ -13115,6 +13115,7 @@ module.exports = view(({
     matchedRules,
     notMatchedRules,
     ruleNodes,
+    onChooseRuleNode,
     width = 400, height = 600
 }) => {
     return n('div', {
@@ -13163,7 +13164,8 @@ module.exports = view(({
         }, map(ruleNodes, (ruleNode) => renderRuleNode({
             ruleNode,
             matchedRules,
-            notMatchedRules
+            notMatchedRules,
+            onChooseRuleNode
         })))
     ]);
 });
@@ -13171,7 +13173,8 @@ module.exports = view(({
 let renderRuleNode = view(({
     ruleNode,
     matchedRules,
-    notMatchedRules
+    notMatchedRules,
+    onChooseRuleNode
 }) => {
     let {
         nodeType, nodeName
@@ -13183,24 +13186,31 @@ let renderRuleNode = view(({
         nodeName === 'input' ||
         nodeName === 'textarea') {
 
-        let color = contain(matchedRules, ruleNode, {
+        let matchType = contain(matchedRules, ruleNode, {
             eq: sameRuleNode
-        }) ? MATCHED_COLOR : contain(notMatchedRules, ruleNode, {
+        }) ? 'matched' : contain(notMatchedRules, ruleNode, {
             eq: sameRuleNode
-        }) ? NOT_MATCHED_COLOR : null;
+        }) ? 'notmatched' : null;
 
         return n('div', [
-            renderNode(ruleNode, color),
+            renderNode(ruleNode, matchType, onChooseRuleNode),
         ]);
     }
 });
 
-let renderNode = (ruleNode, color) => {
-    return [
+let renderNode = (ruleNode, matchType, onChooseRuleNode) => {
+    let color = matchType === 'matched' ? MATCHED_COLOR : matchType === 'notmatched' ? NOT_MATCHED_COLOR : null;
+
+    return n('div', {
+        onclick: () => {
+            onChooseRuleNode && onChooseRuleNode(ruleNode);
+        }
+    }, [
         elementMask(ruleNode, color),
         restoreElement(ruleNode)
-    ];
+    ]);
 };
+
 let sameRuleNode = (rule1, rule2) => {
     return rule1.id === rule2.id;
 };

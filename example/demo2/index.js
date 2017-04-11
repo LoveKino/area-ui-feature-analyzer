@@ -24,7 +24,10 @@ window.onload = () => {
         let mask = ruleMatchMask({
             matchedRules,
             notMatchedRules,
-            ruleNodes
+            ruleNodes,
+            onChooseRuleNode: (ruleNode, matchType) => {
+                console.log(ruleNode, matchType);
+            }
         });
 
         document.getElementById('rule-mask').appendChild(mask);

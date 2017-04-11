@@ -460,13 +460,6 @@ module.exports = {
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(141);
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -574,7 +567,7 @@ module.exports = {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -855,7 +848,7 @@ module.exports = {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function HSL(color) {
@@ -887,6 +880,13 @@ module.exports = function HSL(color) {
         }
     });
 };
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(141);
 
 
 /***/ }),
@@ -1326,7 +1326,7 @@ module.exports = __webpack_require__(123)
     .use(__webpack_require__(33))
     .use(__webpack_require__(122))
     .use(__webpack_require__(32))
-    .use(__webpack_require__(7))
+    .use(__webpack_require__(6))
     .use(__webpack_require__(121))
 
     // Convenience functions
@@ -4437,7 +4437,7 @@ let {
 let {
     getBoundRect,
     ImageInnerNode
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 let filterRules = __webpack_require__(176);
 
@@ -6511,7 +6511,7 @@ let {
 
 let {
     map
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 module.exports = (...args) => {
     let tagName = args[0],
@@ -6559,7 +6559,7 @@ module.exports = (...args) => {
 
 let {
     findIndex, contain, map, forEach
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 module.exports = () => {
     let matrix = {};
@@ -6780,7 +6780,7 @@ let {
 
 let {
     flat, forEach
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 module.exports = (rootNode, parentNode) => {
     rootNode = flat(rootNode);
@@ -6892,7 +6892,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 let applyAttibutes = (node, newNode) => {
     // attributes
@@ -6943,7 +6943,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 let applyAttibutes = __webpack_require__(82);
 
@@ -7073,7 +7073,7 @@ let {
 
 let {
     forEach
-} = __webpack_require__(5);
+} = __webpack_require__(4);
 
 let replace = __webpack_require__(83);
 
@@ -7425,7 +7425,7 @@ let {
     getPredicateMetaInfo,
     getPredicatePath,
     infixTypes
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 let {
     get
@@ -7477,7 +7477,7 @@ module.exports = ({
 
 let {
     getPredicatePath, getPredicateMetaInfo
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 let {
     map, mergeMap
@@ -7607,7 +7607,7 @@ let {
     getExpressionType,
     getPredicatePath,
     getPredicateMetaInfo
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 let {
     JSON_DATA,
@@ -7675,7 +7675,7 @@ let LetaUIView = __webpack_require__(98);
 
 let {
     runner, getLambdaUiValue
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 let {
     dsl
@@ -7870,7 +7870,7 @@ const {
 
 let {
     getDataTypePath
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 /**
  * used to define json data
@@ -8069,7 +8069,7 @@ let {
     expressionTypes,
     isUIPredicate,
     getUIPredicatePath
-} = __webpack_require__(6);
+} = __webpack_require__(5);
 
 /**
  * lambda UI editor
@@ -10498,7 +10498,7 @@ module.exports = function clearer(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function darken(color) {
-    color.use(__webpack_require__(7));
+    color.use(__webpack_require__(6));
 
     color.installMethod('darken', function (amount) {
         return this.lightness(isNaN(amount) ? -0.1 : -amount, true);
@@ -10511,7 +10511,7 @@ module.exports = function darken(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function desaturate(color) {
-    color.use(__webpack_require__(7));
+    color.use(__webpack_require__(6));
 
     color.installMethod('desaturate', function (amount) {
         return this.saturation(isNaN(amount) ? -0.1 : -amount, true);
@@ -10541,7 +10541,7 @@ module.exports = function grayscale(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function lighten(color) {
-    color.use(__webpack_require__(7));
+    color.use(__webpack_require__(6));
 
     color.installMethod('lighten', function (amount) {
         return this.lightness(isNaN(amount) ? 0.1 : amount, true);
@@ -10760,7 +10760,7 @@ module.exports = function opaquer(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function rotate(color) {
-    color.use(__webpack_require__(7));
+    color.use(__webpack_require__(6));
 
     color.installMethod('rotate', function (degrees) {
         return this.hue((degrees || 0) / 360, true);
@@ -10773,7 +10773,7 @@ module.exports = function rotate(color) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function saturate(color) {
-    color.use(__webpack_require__(7));
+    color.use(__webpack_require__(6));
 
     color.installMethod('saturate', function (amount) {
         return this.saturation(isNaN(amount) ? 0.1 : amount, true);
@@ -12929,7 +12929,7 @@ let {
 
 let {
     udView
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 let Fold = __webpack_require__(11);
 let FoldArrow = __webpack_require__(21);
@@ -13007,7 +13007,7 @@ let {
 
 let {
     getBoundRect
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 /**
  * overlay a mask to current page to show which parts are matched, which parts are not matched
@@ -13115,6 +13115,7 @@ module.exports = view(({
     matchedRules,
     notMatchedRules,
     ruleNodes,
+    onChooseRuleNode,
     width = 400, height = 600
 }) => {
     return n('div', {
@@ -13163,7 +13164,8 @@ module.exports = view(({
         }, map(ruleNodes, (ruleNode) => renderRuleNode({
             ruleNode,
             matchedRules,
-            notMatchedRules
+            notMatchedRules,
+            onChooseRuleNode
         })))
     ]);
 });
@@ -13171,7 +13173,8 @@ module.exports = view(({
 let renderRuleNode = view(({
     ruleNode,
     matchedRules,
-    notMatchedRules
+    notMatchedRules,
+    onChooseRuleNode
 }) => {
     let {
         nodeType, nodeName
@@ -13183,24 +13186,31 @@ let renderRuleNode = view(({
         nodeName === 'input' ||
         nodeName === 'textarea') {
 
-        let color = contain(matchedRules, ruleNode, {
+        let matchType = contain(matchedRules, ruleNode, {
             eq: sameRuleNode
-        }) ? MATCHED_COLOR : contain(notMatchedRules, ruleNode, {
+        }) ? 'matched' : contain(notMatchedRules, ruleNode, {
             eq: sameRuleNode
-        }) ? NOT_MATCHED_COLOR : null;
+        }) ? 'notmatched' : null;
 
         return n('div', [
-            renderNode(ruleNode, color),
+            renderNode(ruleNode, matchType, onChooseRuleNode),
         ]);
     }
 });
 
-let renderNode = (ruleNode, color) => {
-    return [
+let renderNode = (ruleNode, matchType, onChooseRuleNode) => {
+    let color = matchType === 'matched' ? MATCHED_COLOR : matchType === 'notmatched' ? NOT_MATCHED_COLOR : null;
+
+    return n('div', {
+        onclick: () => {
+            onChooseRuleNode && onChooseRuleNode(ruleNode, matchType);
+        }
+    }, [
         elementMask(ruleNode, color),
         restoreElement(ruleNode)
-    ];
+    ]);
 };
+
 let sameRuleNode = (rule1, rule2) => {
     return rule1.id === rule2.id;
 };
@@ -13411,7 +13421,7 @@ let genRules = (placeholder) => {
 
 let getContent = (node) => {
     let value = node.value;
-    let placeholder = node.getAttribute('placeholder');
+    let placeholder = node.getAttribute('placeholder') || '';
     if (value) return undefined;
     return placeholder;
 };
@@ -13609,7 +13619,7 @@ let getPageSize = () => {
 
 let {
     getBoundRect
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 let genPositionDetectionRule = (node, {
     scope,
@@ -13698,7 +13708,7 @@ let {
 
 let {
     getFontSize, getColor
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 let getStyleDetectionRules = (node, {
     styleItems = ['background-color', 'font-size', 'color'], styleBlur = {
@@ -13848,7 +13858,7 @@ module.exports = (node, {
 let filterNodes = __webpack_require__(47);
 let {
     collectMatchInfos
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 let {
     any, reduce, filter, map, deRepeat, difference
 } = __webpack_require__(1);
@@ -13994,7 +14004,10 @@ window.onload = () => {
         let mask = ruleMatchMask({
             matchedRules,
             notMatchedRules,
-            ruleNodes
+            ruleNodes,
+            onChooseRuleNode: (ruleNode, matchType) => {
+                console.log(ruleNode, matchType);
+            }
         });
 
         document.getElementById('rule-mask').appendChild(mask);
