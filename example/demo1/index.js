@@ -4,6 +4,10 @@ let {
     fetchAreaFeatures, abstractRuleGraph
 } = require('../../src');
 
+let {
+    mount
+} = require('kabanery');
+
 window.onload = () => {
     let filterOptions = {
         doFilter: 'on',
@@ -14,11 +18,12 @@ window.onload = () => {
         filterOptions
     });
 
-    document.getElementById('abs-rule').appendChild(
+    mount(
         abstractRuleGraph({
             ruleNodes,
-            width: 300,
-            height: 500
-        })
+            width: 300, height: 500
+        }),
+
+        document.getElementById('abs-rule')
     );
 };

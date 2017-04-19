@@ -1,7 +1,7 @@
 'use strict';
 
 let {
-    n
+    n, mount
 } = require('kabanery');
 
 let {
@@ -20,7 +20,7 @@ module.exports = ({
 }) => {
     let html = document.getElementsByTagName('html')[0];
     let div = n('div');
-    html.appendChild(div);
+    mount(div, html);
 
     let parentNode = div;
 
@@ -54,7 +54,7 @@ let maskMatchedNodes = (matchedNodes, parentNode) => {
             left, top, width, height
         } = getBoundRect(node.node);
 
-        parentNode.appendChild(n('div', {
+        mount(n('div', {
             style: {
                 position: 'fixed',
                 left,
@@ -64,7 +64,7 @@ let maskMatchedNodes = (matchedNodes, parentNode) => {
                 zIndex: 10000,
                 backgroundColor: 'rgba(222, 222, 222, 1)'
             }
-        }));
+        }), parentNode);
     });
 };
 
@@ -76,7 +76,7 @@ let maskUnMatchedNodes = (notMatchedNodes, parentNode) => {
             left, top, width, height
         } = getBoundRect(node.node);
 
-        parentNode.appendChild(n('div', {
+        mount(n('div', {
             style: {
                 position: 'fixed',
                 left,
@@ -86,6 +86,6 @@ let maskUnMatchedNodes = (notMatchedNodes, parentNode) => {
                 zIndex: 10000,
                 backgroundColor: 'rgba(0, 53, 64, 0.5)'
             }
-        }));
+        }), parentNode);
     });
 };

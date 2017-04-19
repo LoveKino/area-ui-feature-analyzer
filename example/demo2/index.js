@@ -4,6 +4,10 @@ let {
     fetchAreaFeatures, matchMatrix, partition, ruleMatchMask
 } = require('../../src');
 
+let {
+    mount
+} = require('kabanery');
+
 window.onload = () => {
     let filterOptions = {
         doFilter: 'on',
@@ -30,6 +34,6 @@ window.onload = () => {
             }
         });
 
-        document.getElementById('rule-mask').appendChild(mask);
+        mount(mask, document.getElementById('rule-mask'));
     }, 1000);
 };
