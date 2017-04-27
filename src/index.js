@@ -11,6 +11,9 @@ let {
 let matchMask = require('./debug/matchMask');
 let abstractRuleGraph = require('./debug/abstractRuleGraph');
 let ruleMatchMask = require('./debug/ruleMatchMask');
+let {
+    restoreElement
+} = require('./debug/util/restoreElement');
 
 /**
  * analysis area to get some UI features
@@ -41,5 +44,6 @@ module.exports = {
     partition,
     matchMask,
     ruleMatchMask,
-    abstractRuleGraph
+    abstractRuleGraph,
+    restoreElement
 };
