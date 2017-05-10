@@ -1,6 +1,6 @@
 {
   "name": "area-ui-feature-analyzer",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "an analyzer used to extract UI features from an area",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "kabanery": "^0.1.11",
     "kabanery-fold": "0.0.5",
     "kabanery-modal": "0.0.4",
-    "ui-description-view": "0.0.37",
+    "ui-description-view": "0.0.39",
     "uuid": "^3.0.1"
   }
 }
