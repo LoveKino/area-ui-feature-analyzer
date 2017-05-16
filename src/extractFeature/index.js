@@ -19,7 +19,15 @@ let uuidV4 = require('uuid/v4');
  */
 
 module.exports = (node, {
-    rectBlurRatio = 1.5, minGridWidth = 0, minGridHeight = 0, contentRules, customContentRules = {}, styleItems, styleBlur
+    rectBlurRatio = 1.5,
+    minGridWidth = 0,
+    minGridHeight = 0,
+    maxGridX = 20,
+    maxGridY = 20,
+    contentRules,
+    customContentRules = {},
+    styleItems,
+    styleBlur
 } = {}) => {
     let pageSize = getPageSize();
 
@@ -50,7 +58,9 @@ module.exports = (node, {
             scope,
             rectBlurRatio,
             minGridWidth,
-            minGridHeight
+            minGridHeight,
+            maxGridX,
+            maxGridY
         }),
 
         style: styleDetectRets.rules,

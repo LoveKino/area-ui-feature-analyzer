@@ -45,11 +45,14 @@ let genPositionDetectionRule = (node, options) => {
  *    ]
  * ]
  */
+
 let getPositionArea = (rect, {
     scope,
     rectBlurRatio,
     minGridWidth,
-    minGridHeight
+    minGridHeight,
+    maxGridX = 20,
+    maxGridY = 20
 }) => {
     let bluredRect = blur(rect, rectBlurRatio, {
         minGridWidth,
@@ -59,6 +62,8 @@ let getPositionArea = (rect, {
 
     let m = rect.width === 0 ? 3 : Math.floor(scope.width / rect.width);
     let n = rect.height === 0 ? 3 : Math.floor(scope.height / rect.height);
+    if (m > maxGridX) m = maxGridX;
+    if (n > maxGridY) n = maxGridY;
 
     let grid = [m, n],
         area = [
