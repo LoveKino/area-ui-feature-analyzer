@@ -19,10 +19,10 @@ module.exports = ({
     matchedNodes, notMatchedNodes
 }) => {
     let html = document.getElementsByTagName('html')[0];
-    let div = n('div');
+    let div = n('div id="area-ui-feature-match-mask"');
     mount(div, html);
 
-    let parentNode = div;
+    let parentNode = document.getElementById('area-ui-feature-match-mask');
 
     if (div.createShadowRoot) {
         let sr = div.createShadowRoot();
