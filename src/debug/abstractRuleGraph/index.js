@@ -10,6 +10,8 @@ let {
 
 let ModifyRuleNodeView = require('./modifyRuleNodeView');
 
+let Select = require('kabanery-select');
+
 let areaMask = require('../util/areaMask');
 
 let {
@@ -37,7 +39,10 @@ module.exports = view(({
     width,
     height,
     onchange,
-    editResults = {}
+    backgroundColor = 'white',
+        editResults = {}
+}, {
+    update
 }) => {
     return n('div', {
         style: {
@@ -71,12 +76,36 @@ module.exports = view(({
                     marginRight: 20,
                     marginLeft: 5
                 }
-            })
+            }),
+            // change background color
+
+            n('label', 'backgroud'),
+            n('div', {
+                style: {
+                    display: 'inline-block',
+                    height: 18,
+                    marginLeft: 5
+                }
+            },[
+                Select({
+                    options: [
+                        ['white', 'white'],
+                        ['black', 'black'],
+                        ['red', 'red'],
+                        ['green', 'green']
+                    ],
+                    selected: backgroundColor,
+                    onchange: (v) => {
+                        update('backgroundColor', v);
+                    }
+                })
+            ])
         ]),
 
         n('div', {
             style: {
                 position: 'relative',
+                backgroundColor,
                 width,
                 height,
                 border: '1px solid rgba(200, 200, 200, 0.7)',
