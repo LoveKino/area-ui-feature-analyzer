@@ -32,11 +32,11 @@
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
     "cl-jsoneq": "0.0.3",
-    "kabanery": "^0.2.2",
-    "kabanery-fold": "0.0.8",
-    "kabanery-modal": "0.0.7",
-    "kabanery-select": "0.0.7",
-    "ui-description-view": "0.0.43",
+    "kabanery": "^0.2.3",
+    "kabanery-fold": "0.0.9",
+    "kabanery-modal": "0.0.8",
+    "kabanery-select": "0.0.8",
+    "ui-description-view": "0.0.44",
     "uuid": "^3.0.1"
   }
 }
